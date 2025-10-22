@@ -89,6 +89,15 @@ p {
     animation: fadeInUp 0.40s ease-in-out .5s forwards;
 }
 
+.no-results-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 82px;
+    opacity: 0;
+    animation: fadeInUp 0.40s ease-in-out .5s forwards;
+}
+
 .index-cover {
     width: 100%;
     height: auto;
@@ -209,7 +218,6 @@ li {
     border: 1px solid var(--stroke-color);
     border-radius: 4px;
     padding: 8px 24px 8px 24px;
-    margin-bottom: 32px;
     opacity: 0;
     animation: fadeInUp 0.40s ease-in-out .5s forwards;
 }
@@ -218,6 +226,9 @@ li {
     display: flex;
     align-items: flex-start;
     gap: 8px;
+    margin: 0;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
 }
 
 @media (min-width: 1512px) {
@@ -249,10 +260,11 @@ li {
 @media (min-width: 330px) and (max-width: 834px) {
     body {
         margin-inline: 24px;
+        margin-block: 24px;
     }
 
     .grid-container {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr);
     }
 
     .recipe-section {
