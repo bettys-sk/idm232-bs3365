@@ -1,4 +1,0 @@
-SetEnv DB_HOST localhost
-SetEnv DB_USER myuser
-SetEnv DB_PASS mypassword
-SetEnv DB_NAME mydatabase
