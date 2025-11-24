@@ -54,6 +54,7 @@ $maxId = $maxRow['max_id'];
             </a>
         </div>
 
+        <!-- show previous/next navigation based on the id of the recipe -->
         <div class="nav-group">
         <?php if ($id > 1): ?>
             <a class="nav-link nav-enabled" href="recipe-page.php?id=<?= $id - 1 ?>">
