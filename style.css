@@ -107,7 +107,7 @@ p {
 }
 
 .index-cover {
-    content: url('./images/indexcover.png');
+    content: url(./images/indexcover.jpg);
     width: 100%;
     height: auto;
     margin-bottom: 48px;
@@ -146,7 +146,7 @@ p {
     margin-top: 6px;
     line-height: 1.3em;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -166,7 +166,7 @@ p {
     font-weight: 600;
     margin-top: 10px;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -258,7 +258,6 @@ hr{
     flex-wrap: wrap;
     margin-bottom: 32px;
 }
-
 
 #filters {
     display: flex;
@@ -373,6 +372,10 @@ hr{
     .recipe-page-margin {
         margin-inline: 42px;
     }
+
+    .index-cover {
+        content: url(./images/indexcover.jpg);
+    }
 }
 
 @media (min-width: 330px) and (max-width: 834px) {
@@ -398,6 +401,6 @@ hr{
     }
 
     .index-cover {
-        content: url('./images/mobilecover.png');
+        content: url(./images/mobilecover.jpg);
     }
 }

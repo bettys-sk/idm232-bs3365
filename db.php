@@ -1,18 +1,22 @@
 <?php
-$host = "localhost";
-$port = "8888";      // MAMP MySQL port
-$user = "root";      // MAMP default
-$pass = "root";      // MAMP default
-$dbname = "idm232";
+$env_vars = [
+    'DB_SERVER'   => $_SERVER['REDIRECT_DB_SERVER']   ?? $_SERVER['DB_SERVER']   ?? "localhost",
+    'DB_USERNAME' => $_SERVER['REDIRECT_DB_USERNAME'] ?? $_SERVER['DB_USERNAME'] ?? "root",
+    'DB_PASSWORD' => $_SERVER['REDIRECT_DB_PASSWORD'] ?? $_SERVER['DB_PASSWORD'] ?? "root",
+    'DB_NAME'     => $_SERVER['REDIRECT_DB_NAME']     ?? $_SERVER['DB_NAME']     ?? "idm232"
+];
 
-try {
-    $pdo = new PDO(
-        "mysql:host=$host;port=$port;dbname=$dbname;charset=utf8",
-        $user,
-        $pass
-    );
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("DB Connection failed: " . $e->getMessage());
+if (in_array(null, $env_vars, true))
+    die('Missing required environment variables');
+
+define('DB_SERVER', $env_vars['DB_SERVER']);
+define('DB_USER',   $env_vars['DB_USERNAME']);
+define('DB_PASS',   $env_vars['DB_PASSWORD']);
+define('DB_NAME',   $env_vars['DB_NAME']);
+
+$connection = new mysqli(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
+
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
 }
 ?>

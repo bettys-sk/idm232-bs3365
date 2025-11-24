@@ -1,39 +1,41 @@
 <?php
 require "db.php";
 
-$stmt = $pdo->query("SELECT * FROM idm232_recipe_sheet ORDER BY id ASC");
-$recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
+// filter and search
+$filter = isset($_GET['filter']) ? $_GET['filter'] : '';
+$search = isset($_GET['search']) ? $_GET['search'] : '';
 
-<?php
-$filter = $_GET['filter'] ?? null;
-$search = $_GET['search'] ?? null;
+$search_term = mysqli_real_escape_string($connection, $search);
 
-$sql = "SELECT * FROM idm232_recipe_sheet WHERE 1=1";
-$params = [];
+$filters_query = "SELECT DISTINCT Filter FROM idm232_recipe_sheet ORDER BY Filter";
+$filters_result = mysqli_query($connection, $filters_query);
 
-// FILTER
-if ($filter) {
-    $sql .= " AND Filter = ?";
-    $params[] = $filter;
+if (!$filters_result) {
+    die("Filter query failed: " . mysqli_error($connection));
 }
 
-// SEARCH
-if ($search) {
-    $sql .= " AND (Title LIKE ? OR Ingredients LIKE ? OR Bio LIKE ?)";
-    $params[] = "%$search%";
-    $params[] = "%$search%";
-    $params[] = "%$search%";
+$query = "SELECT * FROM idm232_recipe_sheet WHERE 1=1";
+
+if ($filter !== '') {
+    $safe_filter = mysqli_real_escape_string($connection, $filter);
+    $query .= " AND Filter = '$safe_filter'";
 }
 
-$stmt = $pdo->prepare($sql);
-$stmt->execute($params);
-$recipes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-?>
+if ($search !== '') {
+    $query .= " AND (
+        Title LIKE '%$search_term%' OR 
+        Ingredients LIKE '%$search_term%' OR 
+        Bio LIKE '%$search_term%'
+    )";
+}
 
-<?php
-$filterQuery = $pdo->query("SELECT DISTINCT Filter FROM idm232_recipe_sheet ORDER BY Filter");
-$filters = $filterQuery->fetchAll(PDO::FETCH_COLUMN);
+$query .= " ORDER BY id ASC";
+
+$result = mysqli_query($connection, $query);
+
+if (!$result) {
+    die("Recipe query failed: " . mysqli_error($connection));
+}
 ?>
 
 <!DOCTYPE html>
@@ -46,67 +48,81 @@ $filters = $filterQuery->fetchAll(PDO::FETCH_COLUMN);
 </head>
 
 <body>
-    
-    <img class="index-cover" src="./images/indexcover.png" alt="">
+    <img class="index-cover" src="./images/indexcover.jpg" alt="Site Cover">
 
-<div class="header-row">
-    <h1 class="index-header">Browse Recipes</h1>
+    <div class="header-row">
+        <h1 class="index-header">Browse All Recipes</h1>
 
-    <form method="GET" class="search-bar">
-        <input 
-            type="text" 
-            name="search" 
-            placeholder="Search recipes..." 
-            value="<?= $search ? htmlspecialchars($search) : '' ?>"
-        >
-        <button type="submit">Search</button>
-    </form>
-</div>
+        <!-- search bar -->
+        <form method="GET" class="search-bar">
+            <input 
+                type="text" 
+                name="search" 
+                placeholder="Search recipes..."
+                value="<?= htmlspecialchars($search); ?>"
+            >
 
+            <?php if ($filter !== ''): ?>
+                <input type="hidden" name="filter" value="<?= htmlspecialchars($filter); ?>">
+            <?php endif; ?>
+
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- filters -->
     <ul id="filters">
+        <a 
+            class="filter-btn <?= ($filter === '') ? 'active-filter' : '' ?>" 
+            href="index.php"
+        >
+            All
+        </a>
 
-        <!-- Show ALL button -->
-            <a class="filter-btn <?= $filter ? '' : 'active-filter' ?>" href="index.php">All</a>
-
-        <!-- Dynamic filter buttons -->
-        <?php foreach ($filters as $f): ?>
-                <a class="filter-btn <?= ($filter === $f) ? 'active-filter' : '' ?>"
-                href="index.php?filter=<?= urlencode($f) ?>">
-                <?= htmlspecialchars($f) ?>
-                </a>
-        <?php endforeach; ?>
-
+        <?php while ($row = mysqli_fetch_assoc($filters_result)): ?>
+            <?php $f = $row['Filter']; ?>
+            <a 
+                class="filter-btn <?= ($filter === $f) ? 'active-filter' : '' ?>"
+                href="index.php?filter=<?= urlencode($f); ?>"
+            >
+                <?= htmlspecialchars($f); ?>
+            </a>
+        <?php endwhile; ?>
     </ul>
 
+    <!-- recipe cards -->
     <div class="grid-container">
 
-        <?php if (count($recipes) === 0): ?>
-            <p class="no-results">No results found...</p>
-        <?php else: ?>
-            <?php foreach ($recipes as $recipe): ?>
-                <div class="recipe-card">
-                    <a href="recipe-page.php?id=<?= $recipe['id'] ?>">
-                        <img class="recipe-cover" 
-                            src="./images/<?= htmlspecialchars($recipe['Folder']) ?>/<?= htmlspecialchars($recipe['Recipe_Img']) ?>">
-                        <h2 class="recipe-head"><?= htmlspecialchars($recipe['Title']) ?></h2>
-                        <h4><?= htmlspecialchars($recipe['Bio']) ?></h4>
-                    </a>
-                </div>
-            <?php endforeach; ?>
+        <?php 
+        $found_any = false; 
+        while ($recipe = mysqli_fetch_assoc($result)): 
+            $found_any = true;
+        ?>
+            <div class="recipe-card">
+                <a href="recipe-page.php?id=<?= $recipe['id']; ?>">
+                    <img 
+                        class="recipe-cover"
+                        src="./images/<?= htmlspecialchars($recipe['Folder']); ?>/<?= htmlspecialchars($recipe['Recipe_Img']); ?>"
+                        alt=""
+                    >
+                    <h2 class="recipe-head">
+                        <?= htmlspecialchars($recipe['Title']); ?>
+                    </h2>
+
+                    <h4>
+                        <?= htmlspecialchars($recipe['Bio']); ?>
+                    </h4>
+                </a>
+            </div>
+
+        <?php endwhile; ?>
+
+        <!-- no results -->
+        <?php if (!$found_any): ?>
+            <p class="no-results">Sorry, no results found...</p>
         <?php endif; ?>
 
     </div>
 
 </body>
 </html>
-
-<script>
-    // Check if this is the user's first visit to the page
-    if (!sessionStorage.getItem('visitedBefore')) {
-        // Mark as visited
-        sessionStorage.setItem('visitedBefore', 'true');
-    } else {
-        // User has visited before -> remove fade animation
-        document.body.classList.add('no-animate');
-    }
-</script>
