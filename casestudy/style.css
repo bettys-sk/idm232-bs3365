@@ -1,0 +1,247 @@
+@font-face {
+    font-family: EduVIC Want Hand;
+    src: url(./typography/EduVIC\ Want\ Hand\ Variable\ Font.woff2);
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Geist Mono;
+    src: url(./typography/Geist\ Mono\ Variable\ Font.woff2);
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html{
+    --background-color: #FCFBF8;
+    --stroke-color: #EFE8D1;
+    --primary-color: #6A7D4F;
+    --pararaph-color: #7A7A7A;
+
+    background-color: var(--background-color);
+}
+
+h1 {
+    font-family: EduVIC Want Hand, 'Times New Roman', Times, serif;
+    font-weight: 300;
+    font-size: 42px;
+    color: var(--primary-color);
+}
+
+h2 {
+    font-family: EduVIC Want Hand, 'Times New Roman', Times, serif;
+    font-weight: 300;
+    font-size: 32px;
+    color: var(--primary-color);
+}
+
+h3 {
+    font-family: Geist Mono, 'Courier New', Courier, monospace;
+    font-weight: 300;
+    font-size: 20px;
+    letter-spacing: -.7px;
+    color: var(--primary-color);
+}
+
+h4 {
+    font-family: Geist Mono, 'Courier New', Courier, monospace;
+    font-weight: 300;
+    font-size: 16px;
+    letter-spacing: -.7px;
+    color: var(--pararaph-color);
+}
+
+h5 {
+    font-family: Geist Mono, 'Courier New', Courier, monospace;
+    font-weight: 300;
+    font-size: 24px;
+    letter-spacing: -.7px;
+    color: #6A7D4F;
+}
+
+p {
+    font-family: Geist Mono, 'Courier New', Courier, monospace;
+    font-weight: 300;
+    font-size: 16px;
+    letter-spacing: -.7px;
+    line-height: 24px;
+    color: #676767;
+}
+
+ul {
+  list-style-position: inside;
+  padding-left: 0;
+  margin-left: 12px;
+}
+
+li  {
+    font-family: Geist Mono, 'Courier New', Courier, monospace;
+    font-weight: 300;
+    font-size: 16px;
+    letter-spacing: -.7px;
+    line-height: 20px;
+    color: #676767;
+}
+
+.li-space-1 {
+    margin-top: 4px;
+    margin-left: 32px;
+}
+
+.li-space-2 {
+    margin-top: 4px;
+    margin-left: 32px;
+    margin-bottom: 32px;
+}
+
+.p-space {
+    margin-top: 16px;
+}
+
+.p-c-t-space {
+    margin-top: 32px;
+}
+
+.p-c-space {
+    margin-top: 12px;
+}
+
+.p-b-space {
+    margin-top: 16px;
+    margin-bottom: 32px;
+}
+
+.p-b-p-space {
+    margin-top: 16px;
+    margin-bottom: 42px;
+}
+
+a.hover-link {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.hover-link:hover {
+    color: var(--hover-color);
+    text-decoration: underline;
+}
+
+/* .hover-link:visited {
+    color: #4A4A4A;
+} */
+
+.index-hover-link {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.index-hover-link:hover {
+    color: var(--hover-color);
+    text-decoration: underline;
+}
+
+h2:nth-of-type(2),
+h2:nth-of-type(3),
+h2:nth-of-type(4),
+h2:nth-of-type(5) {
+    margin-top: 32px;
+}
+
+.og-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 42px;
+}
+
+.index-og-link-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 42px 0 24px 0;
+}
+
+.index-og-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 24px 0 24px 0;
+}
+
+.index-arrow-icon {
+    width: 24px;
+    height: auto;
+    padding-top: 4px;
+}
+
+.arrow-icon {
+    width: 24px;
+    height: auto;
+    /* padding-top: 8px; */
+    color: var(--primary-color);
+}
+
+.gif {
+    display: block;
+    width: 400px;
+    height: auto;
+    margin: 42px auto 0;
+    border-radius: 8px;
+}
+
+.hero {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: solid 1px var(--primary-color);
+    margin-bottom: 32px;
+}
+
+.process {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: solid 1px #6A7D4F;
+    margin-top: 16px;
+    margin-bottom: 16px;
+}
+
+.space {
+    margin-bottom: 42px;
+}
+
+hr {
+    border: none;
+    border-top: 2px dotted #6A7D4F;
+    margin: 42px 0 42px 0;
+}
+
+@media (min-width: 1512px) {
+    body {
+        margin-inline: 62px;
+        margin-block: 62px;
+    }
+}
+
+@media (min-width: 834px) and (max-width: 1512px) {
+    body {
+        margin-inline: 62px;
+        margin-block: 62px;
+    }
+}
+
+@media (min-width: 330px) and (max-width: 834px) {
+    body {
+        margin-inline: 42px;
+        margin-block: 42px;
+    }
+}
