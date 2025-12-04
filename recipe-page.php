@@ -134,6 +134,8 @@ $maxId = $maxRow['max_id'];
         <?php endif; ?>
 
     <?php endforeach; ?>
+    
+    <?php mysqli_close($connection); ?>
 
 </body>
 </html>
