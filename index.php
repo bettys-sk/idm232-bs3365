@@ -13,7 +13,7 @@ $filters_result = mysqli_query($connection, $filters_query);
 if (!$filters_result) {
     die("Filter query failed: " . mysqli_error($connection));
 }
-
+i
 $query = "SELECT * FROM idm232_recipe_sheet WHERE 1=1";
 
 if ($filter !== '') {
@@ -123,6 +123,8 @@ if (!$result) {
         <?php endif; ?>
 
     </div>
+
+    <?php mysqli_close($connection); ?>
 
 </body>
 </html>
